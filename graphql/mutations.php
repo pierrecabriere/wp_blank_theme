@@ -14,6 +14,10 @@ function wp_contact_mutation($fields) {
 				'type' => Types::non_null( Types::string() ),
 				'description' => __( '' ),
 			],
+			'phone' => [
+				'type' => Types::string(),
+				'description' => __( '' ),
+			],
 			'fullname' => [
 				'type' => Types::non_null( Types::string() ),
 				'description' => __( '' ),
@@ -26,13 +30,27 @@ function wp_contact_mutation($fields) {
 		'outputFields' => [
 		],
 		'mutateAndGetPayload' => function( $input ) {
+			$input['message'] = nl2br($input['message']);
+
+			// notification email sent to admin
+			$to = get_bloginfo('admin_email');
+			$subject = 'Pierrecabriere.fr - Contact de ' . $input['fullname'];
+			$headers = array('Content-Type: text/html; charset=UTF-8');
+
+			$context = Timber::get_context();
+			$context['input'] = $input;
+			$body = Timber::compile('templates/mail.contact.twig', $context);
+
+			wp_mail($to, $subject, $body, $headers);
+
+			// confirmation email sent to customer
 			$to = $input['email'];
 			$subject = 'Accusé de réception automatique';
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 
 			$context = Timber::get_context();
 			$context['input'] = $input;
-			$body = Timber::compile('templates/mail.accuse_reception.twig', $context);
+			$body = Timber::compile('templates/mail.contact.accuse_reception.twig', $context);
 
 			wp_mail($to, $subject, $body, $headers);
 		},
