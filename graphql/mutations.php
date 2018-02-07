@@ -26,10 +26,27 @@ function wp_contact_mutation($fields) {
 				'type' => Types::non_null( Types::string() ),
 				'description' => __( '' ),
 			],
+			'captchaToken' => [
+				'type' => Types::non_null( Types::string() ),
+				'description' => __( '' ),
+			],
 		],
 		'outputFields' => [
 		],
 		'mutateAndGetPayload' => function( $input ) {
+
+			// vérification du captcha
+			$secret = "6LcDGkUUAAAAAC7F7m1Lo7g5oZ4z73dsRw1QBznu";
+			$response = $input['captchaToken'];
+
+			$api_url = "https://www.google.com/recaptcha/api/siteverify?secret=" . $secret . "&response=" . $response;
+
+			$decode = json_decode(file_get_contents($api_url), true);
+
+			if ($decode['success'] !== true) {
+				throw new \Exception('Invalid captcha');
+			}
+
 			$input['message'] = nl2br($input['message']);
 
 			// notification email sent to admin
