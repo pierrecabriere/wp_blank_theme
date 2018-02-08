@@ -49,7 +49,7 @@ function wp_contact_mutation($fields) {
 
 			$input['message'] = nl2br($input['message']);
 
-			sleep(4);
+			sleep(3);
 
 			// notification email sent to admin
 			$to = get_bloginfo('admin_email');
