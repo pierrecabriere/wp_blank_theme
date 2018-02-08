@@ -49,6 +49,8 @@ function wp_contact_mutation($fields) {
 
 			$input['message'] = nl2br($input['message']);
 
+			sleep(2);
+
 			// notification email sent to admin
 			$to = get_bloginfo('admin_email');
 			$subject = 'Pierrecabriere.fr - Contact de ' . $input['fullname'];
