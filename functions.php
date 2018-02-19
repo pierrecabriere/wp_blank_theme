@@ -1,6 +1,6 @@
 <?php
 
-use GraphQL\Error\UserError;
+use GraphQL\Error\Error as GraphQLError;
 
 //require_once 'configuration/index.php';
 //require_once 'types/index.php';
@@ -11,7 +11,7 @@ function wp_custom_fields_project($fields) {
 	$user_logged_in = is_user_logged_in();
 
 //	if ( !$user_logged_in ) {
-	$fields['title']['resolve'] = function()  { throw new UserError('Can\'t access this title.'); };
+	$fields['title']['resolve'] = function()  { throw new GraphQLError('Can\'t access this title.'); };
 //	}
 
 	return $fields;
