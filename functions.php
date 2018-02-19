@@ -9,7 +9,7 @@ function wp_custom_fields_project($fields) {
 	$user_logged_in = is_user_logged_in();
 
 //	if ( !$user_logged_in ) {
-	$fields['title']['resolve'] = function()  { throw new \Error('Can\'t access this title.'); };
+	$fields['title']['resolve'] = function()  { throw new \Exception('Can\'t access this title.'); };
 //	}
 
 	return $fields;
