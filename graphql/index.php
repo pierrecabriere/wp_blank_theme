@@ -8,6 +8,6 @@ add_filter('graphql_jwt_auth_secret_key', function() {
 
 add_filter('graphql_jwt_auth_expire', function () {
 	// token is valid for 3 months
-	$expires = mktime(date("H")-1, date("i"), date("s"), date("m")+3, date("d"),   date("Y"));
+	$expires = mktime(date("H")-1, date("i"), date("s"), date("m")+3, date("d"), date("Y"));
 	return $expires;
 });
